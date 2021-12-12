@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# find alias - configured to accept parameters
+alias i.findfile='f(){ find / -name "$1"; unset -f f; }; f 2>/dev/null'
+
+# install Onedrive
+Install-Onedrive() {
+  # Update /etc/apt/sources.list
+  sed -i -e '$adeb https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/xUbuntu_21.04/ ./' /etc/apt/sources.list
+
+  # Download and add the release key
+  wget https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/xUbuntu_21.04/Release.key
+  apt-key add ./Release.key
+  rm -rf Release.key
+  
+  # Update your apt package cache
+  apt-get update
+  
+  # Install OneDrive
+  apt install onedrive -y
+}
